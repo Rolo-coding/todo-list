@@ -8,15 +8,14 @@ const App = () => {
 
   const GetItems = itemList.map((item, id) => {
     return (
-      <li className="todolist__item" key={id}>
-        <input type="checkbox" onClick={(e) => CheckTodo(e, id)}></input>
+      <li className='todolist__item' key={id}>
+        <input type='checkbox' onClick={(e) => CheckTodo(e, id)}></input>
         <span>{item}</span>
         <button
-          className="item-deletebtn"
+          className='item-deletebtn'
           onClick={(e) => {
             DeleteItems(id)
-          }}
-        >
+          }}>
           X
         </button>
       </li>
@@ -32,7 +31,9 @@ const App = () => {
   }
 
   const DeleteItems = (id) => {
+    const span = document.querySelectorAll('span')
     const tempList = [...itemList]
+    span[id].style.textDecoration = 'none'
     tempList.splice(id, 1)
     setList(tempList)
   }
@@ -48,22 +49,21 @@ const App = () => {
   }
 
   return (
-    <div className="todolist">
-      <h1 className="todolist__title">Todolist</h1>
-      <form className="todolist__submit">
+    <div className='todolist'>
+      <h1 className='todolist__title'>Todolist</h1>
+      <form className='todolist__submit'>
         <input
-          className="submit__input"
+          className='submit__input'
           onChange={(e) => {
             setInput(e.target.value)
           }}
           value={input}
-          type="text"
-        ></input>
-        <button className="submit__btn" onClick={AddItems}>
+          type='text'></input>
+        <button className='submit__btn' onClick={AddItems}>
           Add
         </button>
       </form>
-      <ul className="todolist__list">{GetItems}</ul>
+      <ul className='todolist__list'>{GetItems}</ul>
     </div>
   )
 }
