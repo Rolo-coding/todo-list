@@ -12,7 +12,7 @@ const App = () => {
         <input
           type='checkbox'
           onClick={(e) => {
-            checkTodo(e, id)
+            checkItem(e, id)
           }}></input>
         <span>{item}</span>
         <button
@@ -30,6 +30,7 @@ const App = () => {
     e.preventDefault()
     const tempList = [...itemList]
     tempList.push(input)
+    saveLocalTodos(input)
     setList(tempList)
     setInput('')
   }
@@ -37,18 +38,13 @@ const App = () => {
   const DeleteItems = (id) => {
     const tempList = [...itemList]
     const listTodo = document.querySelectorAll('li.todolist__item')
-    if (tempList[id + 1] != null) {
-      const checkedNextItem = listTodo[id + 1].querySelector('input').checked
-      if (!checkedNextItem) {
-        listTodo[id].querySelector('input').checked = false
-        document.querySelectorAll('span')[id].style.textDecoration = 'none'
-      }
-    }
+    listTodo[id].querySelector('input').checked = false
+    document.querySelectorAll('span')[id].style.textDecoration = 'none'
     tempList.splice(id, 1)
     setList(tempList)
   }
 
-  const checkTodo = (e, id) => {
+  const checkItem = (e, id) => {
     const span = document.querySelectorAll('span')
     const checked = e.target.checked
     if (checked) {
@@ -56,6 +52,20 @@ const App = () => {
     } else {
       span[id].style.textDecoration = 'none'
     }
+  }
+
+  const saveLocalTodos = (todo) => {
+    let todos = checkLocalTodos()
+    todos.push(todo)
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }
+
+  const checkLocalTodos = () => {
+    let todos
+    if (localStorage.getItem('todos') === null) {
+      return (todos = [])
+    }
+    return (todos = JSON.parse(localStorage.getItem('todos')))
   }
 
   return (
