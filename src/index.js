@@ -9,7 +9,11 @@ const App = () => {
   const GetItems = itemList.map((item, id) => {
     return (
       <li className='todolist__item' key={id}>
-        <input type='checkbox' onClick={(e) => CheckTodo(e, id)}></input>
+        <input
+          type='checkbox'
+          onClick={(e) => {
+            checkTodo(e, id)
+          }}></input>
         <span>{item}</span>
         <button
           className='item-deletebtn'
@@ -31,16 +35,22 @@ const App = () => {
   }
 
   const DeleteItems = (id) => {
-    const span = document.querySelectorAll('span')
     const tempList = [...itemList]
-    span[id].style.textDecoration = 'none'
+    const listTodo = document.querySelectorAll('li.todolist__item')
+    if (tempList[id + 1] != null) {
+      const checkedNextItem = listTodo[id + 1].querySelector('input').checked
+      if (!checkedNextItem) {
+        listTodo[id].querySelector('input').checked = false
+        document.querySelectorAll('span')[id].style.textDecoration = 'none'
+      }
+    }
     tempList.splice(id, 1)
     setList(tempList)
   }
 
-  const CheckTodo = (e, id) => {
-    const checked = e.target.checked
+  const checkTodo = (e, id) => {
     const span = document.querySelectorAll('span')
+    const checked = e.target.checked
     if (checked) {
       span[id].style.textDecoration = 'line-through'
     } else {
