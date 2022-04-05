@@ -38,8 +38,13 @@ const App = () => {
   const DeleteItems = (id) => {
     const tempList = [...itemList]
     const listTodo = document.querySelectorAll('li.todolist__item')
-    listTodo[id].querySelector('input').checked = false
-    document.querySelectorAll('span')[id].style.textDecoration = 'none'
+    if (tempList[id + 1] != null) {
+      const checkedNextItem = listTodo[id + 1].querySelector('input').checked
+      if (!checkedNextItem) {
+        listTodo[id].querySelector('input').checked = false
+        document.querySelectorAll('span')[id].style.textDecoration = 'none'
+      }
+    }
     tempList.splice(id, 1)
     setList(tempList)
   }
