@@ -84,9 +84,11 @@ const App = () => {
   const checkLocalTodos = () => {
     let todos
     if (localStorage.getItem('todos') === null) {
-      return (todos = [])
+      todos = []
+    } else {
+      todos = JSON.parse(localStorage.getItem('todos'))
     }
-    return (todos = JSON.parse(localStorage.getItem('todos')))
+    return todos
   }
 
   return (
