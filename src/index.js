@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import('./style.scss')
 
 const App = () => {
   const [itemList, setList] = useState([])
   const [input, setInput] = useState('')
+
+  useEffect(() => {
+    let todos = checkLocalTodos()
+    setList(todos)
+  }, [])
 
   const GetItems = itemList.map((item, id) => {
     return (
@@ -42,9 +47,14 @@ const App = () => {
       const checkedNextItem = listTodo[id + 1].querySelector('input').checked
       if (!checkedNextItem) {
         listTodo[id].querySelector('input').checked = false
-        document.querySelectorAll('span')[id].style.textDecoration = 'none'
+        listTodo[id].querySelector('span').style.textDecoration = 'none'
+      } else {
+        listTodo[id].querySelector('input').checked = true
+        listTodo[id + 1].querySelector('input').checked = false
+        listTodo[id + 1].querySelector('span').style.textDecoration = 'none'
       }
     }
+    deleteLocalTodos(id)
     tempList.splice(id, 1)
     setList(tempList)
   }
@@ -62,6 +72,12 @@ const App = () => {
   const saveLocalTodos = (todo) => {
     let todos = checkLocalTodos()
     todos.push(todo)
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }
+
+  const deleteLocalTodos = (id) => {
+    let todos = checkLocalTodos()
+    todos.splice(id, 1)
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
