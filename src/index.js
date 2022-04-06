@@ -42,16 +42,14 @@ const App = () => {
 
   const DeleteItems = (id) => {
     const tempList = [...itemList]
-    const listTodo = document.querySelectorAll('li.todolist__item')
-    if (tempList[id + 1] != null) {
-      const checkedNextItem = listTodo[id + 1].querySelector('input').checked
-      if (!checkedNextItem) {
-        listTodo[id].querySelector('input').checked = false
-        listTodo[id].querySelector('span').style.textDecoration = 'none'
+    const checkList = document.querySelectorAll('li.todolist__item input')
+    for (let i = id; i < tempList.length - 1; i++) {
+      checkList[i].checked = checkList[i + 1].checked
+      const span = document.querySelectorAll('li.todolist__item span')
+      if (!checkList[i + 1].checked) {
+        span[i].style.textDecoration = 'none'
       } else {
-        listTodo[id].querySelector('input').checked = true
-        listTodo[id + 1].querySelector('input').checked = false
-        listTodo[id + 1].querySelector('span').style.textDecoration = 'none'
+        span[i].style.textDecoration = 'line-through'
       }
     }
     deleteLocalTodos(id)
